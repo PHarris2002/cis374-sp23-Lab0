@@ -15,8 +15,8 @@ namespace Lab0
 		public int Height { get; }
 
 		// Advanced
-		public int MinKey { get; }
-		public int MaxKey { get; }
+		public int? MinKey { get; }
+		public int? MaxKey { get; }
 
 		public Tuple<int,T> Min {get;}
         public Tuple<int, T> Max { get; }
