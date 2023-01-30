@@ -204,22 +204,71 @@ namespace Lab0
             }
         }
 
-        // TODO
+        // TODO (Why am I failing two tests?)
         public BinarySearchTreeNode<T> Next(BinarySearchTreeNode<T> node)
         {
-            throw new NotImplementedException();
+            if (node == null)
+            {
+                return null;
+            }
+
+            else if (node.Left == null)
+            {
+                if (node.Right == null)
+                {
+                    return null;
+                }
+
+                else
+                {
+                    return node.Right;
+                }
+            }
+
+            else
+            {
+                return node.Left;
+            }
         }
 
-        // TODO
+        // TODO (Why am I failing two tests?)
         public BinarySearchTreeNode<T> Prev(BinarySearchTreeNode<T> node)
         {
-            throw new NotImplementedException();
+            if (node == null || node.Parent == null)
+            {
+                return null;
+            }
+            
+            else
+            {
+                return node.Parent;
+            }
         }
 
         // TODO
         public List<BinarySearchTreeNode<T>> RangeSearch(int min, int max)
         {
-            throw new NotImplementedException();
+            //create list
+            List<BinarySearchTreeNode<T>> rangeSearchResult = new List<BinarySearchTreeNode<T>>();
+
+            //make a loop that iterates through each number in the given range
+            for (int key = min; key <= max; key++)
+            {
+            //at each iteration, check if the key exists. if it does, add value to list. If not, continue.
+                if (Contains(key) == true)
+                {
+                    rangeSearchResult.Add(GetNode(key));
+                }
+                
+                else
+                {
+                    continue;
+                }
+            }
+
+            //return list
+
+            return rangeSearchResult;
         }
 
         public void Remove(int key)
