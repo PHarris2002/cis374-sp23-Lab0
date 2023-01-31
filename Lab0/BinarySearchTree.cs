@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace Lab0
@@ -98,7 +99,6 @@ namespace Lab0
 
         // TODO
         public double MedianKey => throw new NotImplementedException();
-
 
         public BinarySearchTreeNode<T> GetNode(int key)
         {
