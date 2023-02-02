@@ -20,7 +20,6 @@ namespace Lab0
 
         public int Count { get; private set; }
 
-        // TODO
         public int Height => HeightRecursive(Root);
 
         private int HeightRecursive(BinarySearchTreeNode<T> node)
@@ -70,7 +69,7 @@ namespace Lab0
             }
         }
 
-        // TODO
+
         public int? MaxKey => MaxKeyRecursive(Root);
 
         private int? MaxKeyRecursive(BinarySearchTreeNode<T> node)
@@ -91,31 +90,49 @@ namespace Lab0
             }
         }
 
-        // TODO
-        public Tuple<int, T> Min => throw new NotImplementedException();
+        public Tuple<int, T> Min
+        {
+            get
+            {
+                if (IsEmpty)
+                {
+                    return null;
+                }
+
+                var minNode = MinNode(Root);
+                return Tuple.Create(minNode.Key, minNode.Value);
+            }
+        }
 
         // TODO
         public Tuple<int, T> Max => throw new NotImplementedException();
 
         // TODO
-        public double MedianKey => throw new NotImplementedException();
-        public int MedianKey => MedianKeyRecursive(Root, BinarySearchTree<> keys);
-
-        private double MedianKeyRecursive(BinarySearchTreeNode<T> node, List<int> keys)
+        public double MedianKey
         {
-            //create counter for future division
-            double medianCount = 0;
-
-            if (node == null)
+            get
             {
-               var getMedianKey = Math.Floor(medianCount / 2);
-               return getMedianKey;
-            }
+                // get the inorder keys
+                var keys = InOrderKeys;
 
-            InOrderKeysRecursive(node.Left, keys);
-            keys.Add(node.Key);
-            medianCount++;
-            InOrderKeysRecursive(node.Right, keys);
+                //odd
+                if(keys.Count % 2 == 1)
+                {
+                    int middleIndex = keys.Count / 2;
+                    return keys[middleIndex];
+                }
+
+                //even
+                else
+                {
+                    int middleIndex1 = keys.Count / 2 - 1;
+                    int middleIndex2 = keys.Count / 2;
+
+                    int sum = keys[middleIndex1] + keys[middleIndex2];
+
+                    return (double)sum / 2.0;
+                }
+            }
         }
 
         public BinarySearchTreeNode<T> GetNode(int key)
@@ -222,7 +239,6 @@ namespace Lab0
             }
         }
 
-        // TODO (Why am I failing two tests?)
         public BinarySearchTreeNode<T> Next(BinarySearchTreeNode<T> node)
         {
             //case where the node has a right sub-tree
@@ -243,7 +259,6 @@ namespace Lab0
             return nodeParent;
         }
 
-        // TODO (Why am I failing two tests?)
         public BinarySearchTreeNode<T> Prev(BinarySearchTreeNode<T> node)
         {
             //case where the node has a left sub-tree
@@ -264,11 +279,16 @@ namespace Lab0
             return nodeParent;
         }
 
-        // TODO
         public List<BinarySearchTreeNode<T>> RangeSearch(int min, int max)
-        {
+        { 
             //create list
             List<BinarySearchTreeNode<T>> rangeSearchResult = new List<BinarySearchTreeNode<T>>();
+
+            //if min is greater than the max
+            if (min > max)
+            {
+                return rangeSearchResult;
+            }
 
             //make a loop that iterates through each number in the given range
             for (int key = min; key <= max; key++)
@@ -377,7 +397,6 @@ namespace Lab0
 
         }
 
-        // TODO
         public T Search(int key)
         {
             if (Contains(key))
