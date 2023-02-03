@@ -34,6 +34,17 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
+        public void HeightZero()
+        {
+            BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            tree.Add(0, 0);
+            Assert.AreEqual(0, tree.Height);
+
+            tree = new BinarySearchTree<int>();
+            Assert.AreEqual(0, tree.Height);
+        }
+
+        [TestMethod]
         public void HeightInt()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
@@ -44,7 +55,7 @@ namespace UnitTestProject1
                 random = rand.Next();
                 tree.Add(i, random);
             }
-            Assert.AreEqual(49, tree .Height);
+            Assert.AreEqual(49, tree.Height);
         }
 
         [TestMethod]
@@ -137,7 +148,7 @@ namespace UnitTestProject1
             }
             for (int i = 2; i < 49; i++)
             {
-                Assert.AreEqual(tree.Search(i), tree.GetNode(i + 1).Parent.Value );
+                Assert.AreEqual(tree.Search(i), tree.GetNode(i + 1).Parent.Value);
             }
         }
 
@@ -153,7 +164,7 @@ namespace UnitTestProject1
             tree.Add(26, 27);
             tree.Add(7, 8);
             tree.Add(23, 24);
-            Assert.AreEqual(tree.Search(8) , tree.GetNode(10).Parent.Value);
+            Assert.AreEqual(tree.Search(8), tree.GetNode(10).Parent.Value);
             Assert.AreEqual(tree.Search(8), tree.GetNode(6).Parent.Value);
             Assert.AreEqual(tree.Search(6), tree.GetNode(5).Parent.Value);
             Assert.AreEqual(tree.Search(10), tree.GetNode(22).Parent.Value);
@@ -218,6 +229,93 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
+        public void RemoveRoot1()
+        {
+            BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            tree.Add(8, 9);
+            tree.Add(10, 11);
+            tree.Add(6, 7);
+            tree.Add(5, 6);
+            tree.Add(22, 23);
+            tree.Add(26, 27);
+            tree.Add(7, 8);
+            tree.Add(23, 24);
+            tree.Remove(8);
+            Assert.AreEqual(3, tree.Height);
+            Assert.IsNull(tree.GetNode(8));
+        }
+
+        [TestMethod]
+        public void RemoveRoot2()
+        {
+            BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            tree.Add(8, 9);
+            tree.Add(10, 11);
+            tree.Add(6, 7);
+            tree.Add(5, 6);
+            tree.Add(22, 23);
+            tree.Add(26, 27);
+            tree.Add(7, 8);
+            tree.Add(23, 24);
+            tree.Remove(8);
+            tree.Remove(10);
+            Assert.AreEqual(2, tree.Height);
+            Assert.IsNull(tree.GetNode(10));
+        }
+
+        [TestMethod]
+        public void RemoveRoot3()
+        {
+            BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            tree.Add(8, 9);
+            tree.Add(10, 11);
+            tree.Add(6, 7);
+            tree.Add(5, 6);
+            tree.Add(22, 23);
+            tree.Add(26, 27);
+            tree.Add(7, 8);
+            tree.Add(23, 24);
+
+            tree.Remove(8);
+            tree.Remove(10);
+            tree.Remove(6);
+            tree.Remove(5);
+            tree.Remove(23);
+            tree.Remove(7);
+            tree.Remove(22);
+            Assert.AreEqual(0, tree.Height);
+            Assert.IsNull(tree.GetNode(8));
+            Assert.IsNotNull(tree.GetNode(26));
+            tree.Remove(26);
+        }
+
+        [TestMethod]
+        public void RemoveRoot4()
+        {
+            BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            tree.Add(8, 9);
+            tree.Add(10, 11);
+            tree.Add(6, 7);
+            tree.Add(5, 6);
+            tree.Add(22, 23);
+            tree.Add(26, 27);
+            tree.Add(7, 8);
+            tree.Add(23, 24);
+
+            tree.Remove(8);
+            tree.Remove(10);
+            tree.Remove(6);
+            tree.Remove(5);
+            tree.Remove(23);
+            tree.Remove(7);
+            tree.Remove(22);
+            Assert.AreEqual(0, tree.Height);
+            Assert.IsNull(tree.GetNode(8));
+            Assert.IsNotNull(tree.GetNode(26));
+            tree.Remove(26);
+        }
+
+        [TestMethod]
         public void PostOrderKeys()
         {
             BinarySearchTree<int> tree = new BinarySearchTree<int>();
@@ -229,15 +327,15 @@ namespace UnitTestProject1
             tree.Add(26, 4);
             tree.Add(7, 1);
             tree.Add(23, 3);
-            List<int> postOrder = tree.PostOrderKeys;
-            Assert.AreEqual(5, postOrder[0]);
-            Assert.AreEqual(7, postOrder[1]);
-            Assert.AreEqual(6, postOrder[2]);
-            Assert.AreEqual(23, postOrder[3]);
-            Assert.AreEqual(26, postOrder[4]);
-            Assert.AreEqual(22, postOrder[5]);
-            Assert.AreEqual(10, postOrder[6]);
-            Assert.AreEqual(8, postOrder[7]);
+            List<int> keys = tree.PostOrderKeys;
+            Assert.AreEqual(5, keys[0]);
+            Assert.AreEqual(7, keys[1]);
+            Assert.AreEqual(6, keys[2]);
+            Assert.AreEqual(23, keys[3]);
+            Assert.AreEqual(26, keys[4]);
+            Assert.AreEqual(22, keys[5]);
+            Assert.AreEqual(10, keys[6]);
+            Assert.AreEqual(8, keys[7]);
 
         }
 
@@ -253,15 +351,39 @@ namespace UnitTestProject1
             tree.Add(26, 4);
             tree.Add(7, 1);
             tree.Add(23, 3);
-            List<int> preOrder = tree.PreOrderKeys;
-            Assert.AreEqual(8, preOrder[0]);
-            Assert.AreEqual(6, preOrder[1]);
-            Assert.AreEqual(5, preOrder[2]);
-            Assert.AreEqual(7, preOrder[3]);
-            Assert.AreEqual(10, preOrder[4]);
-            Assert.AreEqual(22, preOrder[5]);
-            Assert.AreEqual(26, preOrder[6]);
-            Assert.AreEqual(23, preOrder[7]);
+            List<int> keys = tree.PreOrderKeys;
+            Assert.AreEqual(8, keys[0]);
+            Assert.AreEqual(6, keys[1]);
+            Assert.AreEqual(5, keys[2]);
+            Assert.AreEqual(7, keys[3]);
+            Assert.AreEqual(10, keys[4]);
+            Assert.AreEqual(22, keys[5]);
+            Assert.AreEqual(26, keys[6]);
+            Assert.AreEqual(23, keys[7]);
+
+        }
+
+        [TestMethod]
+        public void InOrderKeys()
+        {
+            BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            tree.Add(8, 7);
+            tree.Add(10, 6);
+            tree.Add(6, 2);
+            tree.Add(5, 0);
+            tree.Add(22, 5);
+            tree.Add(26, 4);
+            tree.Add(7, 1);
+            tree.Add(23, 3);
+            List<int> keys = tree.InOrderKeys;
+            Assert.AreEqual(5, keys[0]);
+            Assert.AreEqual(6, keys[1]);
+            Assert.AreEqual(7, keys[2]);
+            Assert.AreEqual(8, keys[3]);
+            Assert.AreEqual(10, keys[4]);
+            Assert.AreEqual(22, keys[5]);
+            Assert.AreEqual(23, keys[6]);
+            Assert.AreEqual(26, keys[7]);
 
         }
     }

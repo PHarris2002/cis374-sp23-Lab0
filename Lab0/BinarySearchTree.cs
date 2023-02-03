@@ -20,7 +20,7 @@ namespace Lab0
 
         public int Count { get; private set; }
 
-        public int Height => HeightRecursive(Root);
+        public int Height => IsEmpty ? 0 : HeightRecursive(Root);
 
         private int HeightRecursive(BinarySearchTreeNode<T> node)
         {
@@ -130,7 +130,7 @@ namespace Lab0
 
                     int sum = keys[middleIndex1] + keys[middleIndex2];
 
-                    return (double)sum / 2.0;
+                    return (double)sum/2.0;
                 }
             }
         }
@@ -320,11 +320,13 @@ namespace Lab0
                 return;
             }
 
-            Count--;
-
             // 1. leaf node
             if (node.Left == null && node.Right == null)
             {
+                if (parent == null)
+                {
+                    Root = null;
+                }
                 if (parent.Left == node)
                 {
                     parent.Left = null;
@@ -337,6 +339,7 @@ namespace Lab0
                     node.Parent = null;
                 }
 
+                Count--;
                 return;
             }
 
@@ -345,6 +348,11 @@ namespace Lab0
             {
                 //only has a right child
                 var child = node.Right;
+                if (parent == null)
+                {
+                    Root = child;
+                    child.Parent = null;
+                }
 
                 if (parent.Left == node)
                 {
@@ -358,6 +366,7 @@ namespace Lab0
                     child.Parent = parent;
                 }
 
+                Count--;
                 return;
             }
 
@@ -365,6 +374,11 @@ namespace Lab0
             {
                 //only has a left child
                 var child = node.Left;
+                if (parent == null)
+                {
+                    Root = child;
+                    child.Parent = null;
+                }
 
                 if (parent.Left == node)
                 {
@@ -391,10 +405,17 @@ namespace Lab0
 
             // 3. parent with two children
             // Find the node to remove
-            // Find the next node (successor in this case)
-            // Swap with the in order successor and then delete the current leaf.
-            // Remove the succesor (a leaf node) (like case 1)
+            else
+            {
+                // Find the next node (successor)
+                var succNode = Next(node);
+                Remove(succNode.Key);
 
+                node.Key = succNode.Key;
+                node.Value = succNode.Value;
+
+                return;
+            }
         }
 
         public T Search(int key)
