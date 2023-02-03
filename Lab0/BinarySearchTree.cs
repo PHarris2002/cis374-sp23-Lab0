@@ -400,6 +400,7 @@ namespace Lab0
                     node.Right = null;
                 }
 
+                Count--;
                 return;
             }
 
